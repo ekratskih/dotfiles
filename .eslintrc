@@ -3,7 +3,8 @@
   "env": {
     "browser": true,
     "node": true,
-    "mocha": true
+    "mocha": true,
+    "es6": true
   },
   "settings": {
     "ecmascript": 6,
@@ -44,8 +45,7 @@
     "complexity": 1,
     "consistent-return": 2,
     "curly": 2,
-    "default-case": 1,
-    "dot-location": 1,
+    "dot-location": ["error", "property"],
     "dot-notation": 1,
     "eqeqeq": 1,
     "guard-for-in": 1,
