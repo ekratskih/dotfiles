@@ -19,16 +19,17 @@ Plugin 'mxw/vim-jsx'
 Plugin 'scrooloose/syntastic'
 Plugin 'benmills/vimux'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'vim-scripts/FuzzyFinder'
 Plugin 'vim-scripts/L9'
-Plugin 'reedes/vim-colors-pencil'
-Plugin 'Raimondi/delimitMate'
+Plugin 'junegunn/goyo.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'mattn/emmet-vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-set cursorline    " Hightlight current line
+set rnu
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*
 set nowrap        " Disable wrapping
 set backspace=2   " Backspace deletes like most programs in insert mode
 set nobackup
@@ -39,8 +40,8 @@ set ruler         " show the cursor position all the time
 set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
 set laststatus=2  " Always display the status line
-set nofoldenable
 set hidden        " Disable unsaved buffer notification
+set foldmethod=marker
 syntax on
 
 colorscheme smyck
@@ -72,21 +73,31 @@ set guifont=Menlo\ Regular:h12
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeQuitOnOpen = 1
 let NERDTreeWinSize = 50
+let mapleader = ","
 let g:airline_theme='wombat'
 
 au BufRead,BufNewFile Podfile set filetype=ruby
 au BufRead,BufNewFile .babelrc set filetype=json
 
 " Toggle NERDTree
-nmap ,t :NERDTreeToggle<CR>
+nmap <leader>t :NERDTreeToggle<CR>
 
 " Format JSON
-nmap ,j :%!python -m json.tool<CR>
+nmap <leader>j :%!python -m json.tool<CR>
 
 " Show buffer explorer
-nmap <C-E> \be
+nmap <C-E> <leader>be
 " Set up syntax check.
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_always_populate_loc_list = 1
 let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|(node_modules)'
+
+" CtrlP
+nmap <leader>p :CtrlP<CR>
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
