@@ -84,3 +84,9 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 source /usr/local/bin/virtualenvwrapper.sh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/edil/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/edil/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/edil/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/edil/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

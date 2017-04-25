@@ -23,13 +23,16 @@ Plugin 'vim-scripts/L9'
 Plugin 'junegunn/goyo.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'mattn/emmet-vim'
+Plugin 'hynek/vim-python-pep8-indent'
+Plugin 'hdima/python-syntax'
+Plugin 'majutsushi/tagbar'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 set rnu
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*.pyc,*/__pycache__/*
 set nowrap        " Disable wrapping
 set backspace=2   " Backspace deletes like most programs in insert mode
 set nobackup
@@ -41,7 +44,10 @@ set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
 set laststatus=2  " Always display the status line
 set hidden        " Disable unsaved buffer notification
-set foldmethod=marker
+set foldmethod=indent
+set foldlevelstart=5
+set foldlevel=5
+set cursorline
 syntax on
 
 colorscheme smyck
@@ -59,7 +65,7 @@ set list listchars=tab:»·,trail:·,nbsp:·
 set nojoinspaces
 " Make it obvious where 80 characters is
 " set textwidth=80
-" set colorcolumn=+1
+set colorcolumn=+1
 
 " Numbers
 set number
@@ -70,7 +76,7 @@ set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 set guifont=Menlo\ Regular:h12
 
-let NERDTreeIgnore = ['\.pyc$']
+let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let NERDTreeQuitOnOpen = 1
 let NERDTreeWinSize = 50
 let mapleader = ","
@@ -91,6 +97,7 @@ nmap <C-E> <leader>be
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_python_python_exec = '/usr/local/bin/python3'
 let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|(node_modules)'
 
 " CtrlP
@@ -101,3 +108,9 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
+if v:version >= 700
+  au BufLeave * let b:winview = winsaveview()
+  au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+endif
+
+let python_highlight_all = 1
