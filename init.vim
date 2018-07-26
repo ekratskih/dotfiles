@@ -4,15 +4,17 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'jlanzarotta/bufexplorer'
 Plug 'brendonrapp/smyck-vim'
 Plug 'kien/ctrlp.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'neomake/neomake'
-" Plug 'benjie/neomake-local-eslint.vim'
 Plug 'neoclide/vim-jsx-improve'
 Plug 'styled-components/vim-styled-components'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'tpope/vim-fugitive'
+Plug 'pangloss/vim-javascript'
+Plug 'cespare/vim-toml'
+Plug 'ayu-theme/ayu-vim'
 
 call plug#end()
 
@@ -39,13 +41,13 @@ set expandtab
 set numberwidth=3
 set list listchars=tab:»·,trail:·,nbsp:·
 set mouse-=a
+set splitbelow
+set splitright
+set nohlsearch
+set cursorline
 let mapleader = ","
+set t_Co=256
 
-" if &term == "screen"
-  set t_Co=256
-" endif
-
-syntax on
 colorscheme smyck
 
 " Open Podfile as ruby file
@@ -82,3 +84,36 @@ call neomake#configure#automake('w')
 call neomake#configure#automake('nw', 750)
 " When reading a buffer (after 1s), and when writing.
 call neomake#configure#automake('rw', 1000)
+
+" Window navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Format json
+nmap <leader>j :%!python -m json.tool<CR>
+
+" Enable flow syntax
+let g:javascript_plugin_flow = 1
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" bind \ (backward slash) to grep shortcut
+command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap \ :Ag<SPACE>
+
+" remoe trailing spaces on save
+autocmd BufWritePre *.js %s/\s\+$//e
+
+" Open current buffer in nerdtree
+map <leader>r :NERDTree %<CR>
