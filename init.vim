@@ -4,8 +4,6 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'jlanzarotta/bufexplorer'
 Plug 'brendonrapp/smyck-vim'
 Plug 'kien/ctrlp.vim'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'neomake/neomake'
 Plug 'neoclide/vim-jsx-improve'
@@ -15,6 +13,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'pangloss/vim-javascript'
 Plug 'cespare/vim-toml'
 Plug 'ayu-theme/ayu-vim'
+Plug 'mattn/emmet-vim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'wakatime/vim-wakatime'
 
 call plug#end()
 
@@ -44,11 +45,11 @@ set mouse-=a
 set splitbelow
 set splitright
 set nohlsearch
-set cursorline
 let mapleader = ","
 set t_Co=256
-
-colorscheme smyck
+" set background=light
+" colorscheme smyck
+colorscheme nord
 
 " Open Podfile as ruby file
 au BufRead,BufNewFile Podfile set filetype=ruby
@@ -73,10 +74,14 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
+function! StrTrim(txt)
+  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+endfunction
+
 " Neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_javascript_enabled_makers = ['eslint', StrTrim(system('npm-which eslint'))]
 let g:neomake_css_enabled_makers = ['csslint']
-let g:neomake_jsx_enabled_makers = ['eslint']
+let g:neomake_jsx_enabled_makers = ['eslint', StrTrim(system('npm-which eslint'))]
 
 " When writing a buffer.
 call neomake#configure#automake('w')
@@ -117,3 +122,5 @@ autocmd BufWritePre *.js %s/\s\+$//e
 
 " Open current buffer in nerdtree
 map <leader>r :NERDTree %<CR>
+
+let g:UltiSnipsExpandTrigger="<tab>"
